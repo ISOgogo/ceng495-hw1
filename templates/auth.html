@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Registration and Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+
+      h1 {
+        text-align: center;
+        color: #666;
+      }
+
+      form {
+        margin: 0 auto;
+        width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+      }
+
+      input[type="email"],
+      input[type="password"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: none;
+        background-color: #f2f2f2;
+        color: #666;
+      }
+
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #008CBA;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #00557a;
+      }
+
+      .warning {
+        color: red;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Registration</h1>
+    <form method="POST" action="/auth/register">
+      <label>Email:</label>
+      <input type="email" name="email">
+      <label>Password:</label>
+      <input type="password" name="password">
+      <input type="submit" value="Register">
+    </form>
+    <h1>Login</h1>
+    <form method="POST" action="/auth/login">
+      <label>Email:</label>
+      <input type="email" name="email">
+      <label>Password:</label>
+      <input type="password" name="password">
+      <input type="submit" value="Login">
+    </form>
+    <div id="result_msg" class="warning"></div>
+    <script>
+      var resultMsg = "{{ result_msg }}";
+      if (resultMsg !== "" || resultMsg != null) {
+        document.getElementById("result_msg").innerHTML = resultMsg;
+      }
+    </script>
+  </body>
+</html>
