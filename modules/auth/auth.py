@@ -16,9 +16,13 @@ def register():
     try:
         auth_register_params = AuthRegisterParams(
             email = request.form.get('email'),
+            username = request.form.get('username'),
             password = request.form.get('password')
             )
-        new_user = User(email=auth_register_params.email, password=auth_register_params.password)
+        new_user = User(email=auth_register_params.email, 
+                        username=auth_register_params.username, 
+                        password=auth_register_params.password
+                        )
         
         user_query_ops = UserQueryOps(mongo_db, mongo_session)
         mongo_transaction_with_retry(lambda: user_query_ops.create(new_user))
@@ -32,6 +36,9 @@ def register():
     except InvalidEmail as e:
         result_status = False
         result_msg = 'Email is invalid!'
+    except InvalidUsername as e:
+        result_status = False
+        result_msg = 'Username must be longer than 3 characters'
     except InvalidPassword as e:
         result_status = False
         result_msg = 'Password must be longer than 6 character long and contains at least 1 digit & 1 letter!'
@@ -43,6 +50,7 @@ def register():
     #     result_msg = e.__str__
     
     if result_status == True:
+        session['username'] = new_user.username
         return redirect('/')
     if result_status == False:
         print(result_msg)
@@ -56,14 +64,18 @@ def login():
     result_msg = 'Authenticated successfully!'
     try:
         auth_login_params = AuthLoginParams(
-            email = request.form.get('email'),
+            email = request.form.get('username'),
             password = request.form.get('password')
             )
         user = validate_and_get_user(auth_login_params, mongo_db, mongo_session)
-        session['user'] = str(user.id)
+        session['username'] = user.username
+    
+    except InvalidUsername as e:
+        result_status = False
+        result_msg = 'Username must be longer than 3 characters'
     except UserNotFound:
         result_status=False
-        result_msg= 'This Email address is not registered'
+        result_msg= 'This username is not registered'
     except InvalidPassword:
         result_status=False
         result_msg = 'Incorrect Password'

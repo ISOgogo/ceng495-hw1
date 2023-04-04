@@ -10,8 +10,8 @@ class UserQueryOps(BaseQueryOps):
     def __init__(self, db: Database, session: Optional[ClientSession] = None):
         super().__init__(db, User, session)
 
-    def get_by_email(self, email: str) -> User:
-        result = self.collection.find_one({'email': email})
+    def get_by_username(self, username: str) -> User:
+        result = self.collection.find_one({'username': username})
         try:
             return User.parse_obj(result)
         except:

@@ -5,6 +5,7 @@ import bcrypt
 
 class AuthRegisterParams(BaseModel):
     email: str
+    username: str
     password: bytes
 
     @root_validator(pre=True)
@@ -13,6 +14,8 @@ class AuthRegisterParams(BaseModel):
             raise EmptyEmailError('Email cannot be empty')
         if values['password'] is None or values['password'] == "":
             raise EmptyPasswordError('Password cannot be empty')
+        if values['username'] is None or len(values['username']) < 3:
+            raise InvalidUsername('Username must be longer than 3 character')
         # validate and lower the email
         values['email'] = check_email(values['email'])
         if not is_valid_password(values['password']):
@@ -22,13 +25,13 @@ class AuthRegisterParams(BaseModel):
         return values
 
 class AuthLoginParams(BaseModel):
-    email: str
+    username: str
     password: bytes
 
     @root_validator(pre=True)
     def check(cls, values):
-        if values['email'] is None or values['email'] == "":
-            raise EmptyEmailError('Email cannot be empty')
+        if values['username'] is None or len(values['username']) < 3:
+            raise InvalidUsername('Username must be longer than 3 character')
         if values['password'] is None or values['password'] == "":
             raise EmptyPasswordError('Password cannot be empty')
         # Turn into bytes

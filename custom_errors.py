@@ -6,6 +6,10 @@ class InvalidPassword(Exception):
     """Password Error"""
     pass
 
+class InvalidUsername(Exception):
+    """Invalid Username Error"""
+    pass
+
 class EmptyEmailError(Exception):
     """Empty Email Error"""
     pass
