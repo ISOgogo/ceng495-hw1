@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Item Details</title>
+	<style>
+		.item-container {
+			background-color: #fff;
+			border-radius: 10px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+			margin: 20px auto;
+			padding: 20px;
+			max-width: 800px;
+			min-width: 600px;
+			text-align: center;
+		}
+
+		.item-container img {
+			width: 300px;
+			height: 300px;
+			margin: 10px auto;
+			display: block;
+		}
+
+		.item-container form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.item-container input[type="submit"] {
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			padding: 10px;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+
+		.item-container input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+
+		.item-container input[type="text"], 
+		.item-container input[type="number"], 
+		.item-container select {
+			padding: 10px;
+			margin: 10px 0;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			width: 100%;
+			font-size: 16px;
+			box-sizing: border-box;
+		}
+
+		.item-container label {
+			font-size: 16px;
+			font-weight: bold;
+			margin-top: 10px;
+			text-align: left;
+			width: 100%;
+			display: block;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="item-container">
+		<h1>{{ item.name }}</h1>
+		<img src="{{ item.image }}" alt="{{ item.name }}">
+		
+		<form action="/item/{{ item.name }}" method="POST">
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" value="{{ item.name }}">
+			
+			<label for="category">Category:</label>
+			<select id="category" name="category">
+			  <option value="Clothing" {% if item.category == 'Clothing' %}selected{% endif %}>Clothing</option>
+			  <option value="Computer Components" {% if item.category == 'Computer Components' %}selected{% endif %}>Computer Components</option>
+			  <option value="Monitors" {% if item.category == 'Monitors' %}selected{% endif %}>Monitors</option>
+			  <option value="Snacks" {% if item.category == 'Snacks' %}selected{% endif %}>Snacks</option>
+			  <option value="Other" {% if item.category == 'Other' %}selected{% endif %}>Other</option>
+			</select>
+		
+			<label for="description">Description:</label>
+			<input type="text" id="description" name="description" value="{{ item.description }}">
+
+			<label for="image">Image URL:</label>
+			<input type="text" id="image" name="image" value="{{ item.image }}">
+
+			<label for="price">Price:</label>
+			<input type="number" id="price" name="price" value="{{ item.price }}">
+
+			<label for="seller">Seller:</label>
+			<input type="text" id="seller" name="seller" value="{{ item.seller }}">
+
+			<label for="size">Size:</label>
+			<select id="size" name="size">
+				<option value="small" {% if item.size == 'small' %}selected{% endif %}>Small</option>
+				<option value="medium" {% if item.size == 'medium' %}selected{% endif %}>Medium</option>
+				<option value="large" {% if item.size == 'large' %}selected{% endif %}>Large</option>
+			</select>
+
+			<label for="colour">Colour:</label>
+			<input type="text" id="colour" name="colour" value="{{ item.colour }}">
+
+            <label for="spec">Spec:</label>
+            <input type="text" id="spec" name="spec" value="{{ item.spec }}">
+			{% if session.username == 'admin' %}
+			<input type="submit" value="Save Changes">
+			{% endif %}
+        </form>
+		<form action="/item/{{item.name}}?delete=true" method="POST">
+			<input type="submit" value="Delete Item" style="background-color: firebrick">			
+		</form>
+    </div>
+	{% if session.username != 'admin' %}
+	<script>
+		const form = document.querySelector('form');
+		const inputs = form.querySelectorAll('input, select');
+		inputs.forEach(input => {
+			input.disabled = true;
+		});
+	</script>
+	{% endif %}
+    </body>
+</html>
+    

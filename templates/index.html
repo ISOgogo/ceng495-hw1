@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Items List</title>
+	<style>
+	.items-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+	}
+	.item {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	margin: 20px;
+	padding: 20px;
+	max-width: 300px;
+	min-width: 250px;
+	text-align: center;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	}
+
+	.item:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	}
+
+	.item h2 {
+		font-size: 24px;
+		margin: 10px 0;
+		text-transform: uppercase;
+	}
+
+	.item p {
+		font-size: 16px;
+		margin: 10px 0;
+		color: #666;
+	}
+
+	.item img {
+		width: 200px;
+		height: 200px;
+		margin: 10px auto;
+		display: block;
+	}
+
+	.item ul {
+		list-style: none;
+		margin: 10px 0;
+		padding: 0;
+	}
+
+	.item li {
+		font-size: 14px;
+		margin-bottom: 5px;
+	}
+</style>
+</head>
+<body>
+	<h1>Items List</h1>
+	<div class="items-container">
+		<!-- Loop through the items and display each item -->
+		{% for item in items %}
+			<a href="/item/{{ item.name }}">
+				<div class="item">
+					<h2>{{ item.name }}</h2>
+					<p>{{ item.description }}</p>
+					<img src="{{ item.image }}" alt="{{ item.name }}">
+					<ul>
+						<li>Price: {{ item.price }}</li>
+						<li>Seller: {{ item.seller }}</li>
+						<li>Size: {{ item.size }}</li>
+						<li>Colour: {{ item.colour }}</li>
+						<li>Spec: {{ item.spec }}</li>
+						<li>Rating: {{ item.rating }}</li>
+						<li>Reviews:</li>
+						<!-- Loop through the reviews and display each review -->
+						{% for review in item.reviews %}
+							<li>{{ review }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 from flask import (Flask, session, request)
 import pymongo
 from os import environ
-from functools import wraps, func_wrapper
+from functools import wraps
 from flask import redirect
 
 app = Flask(__name__)
@@ -36,7 +36,9 @@ def check_admin(func):
     return func_wrapper
 
 from modules.auth import auth_bp
+from modules.controller import controller_bp
 app.register_blueprint(auth_bp)
+app.register_blueprint(controller_bp)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)

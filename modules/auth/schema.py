@@ -1,9 +1,10 @@
-from pydantic import root_validator, BaseModel
+from pydantic import root_validator
+from models.helpers import MongoBaseModel
 from custom_errors import *
 import re
 import bcrypt
 
-class AuthRegisterParams(BaseModel):
+class AuthRegisterParams(MongoBaseModel):
     email: str
     username: str
     password: bytes
@@ -24,7 +25,7 @@ class AuthRegisterParams(BaseModel):
         values['password'] = bcrypt.hashpw(values['password'].encode('utf-8'), bcrypt.gensalt())
         return values
 
-class AuthLoginParams(BaseModel):
+class AuthLoginParams(MongoBaseModel):
     username: str
     password: bytes
 

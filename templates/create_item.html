@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+    }
+
+    form {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+      color: #555;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0069d9;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-top: 50px;
+    }
+
+    label[for="category"] {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  select[name="category"] {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+    font-size: 16px;
+    color: #555;
+  }
+
+  select[name="category"] option[value=""] {
+    display: none;
+  }
+
+  .warning {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Create New Item</h1>
+
+  <form action="/create_item" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+      <option value="Clothing">Clothing</option>
+      <option value="Computer Components">Computer Components</option>
+      <option value="Monitors">Monitors</option>
+      <option value="Snacks">Snacks</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="seller">Seller:</label>
+    <input type="text" id="seller" name="seller" required>
+
+    <label for="image">Image URL:</label>
+    <input type="text" id="image" name="image" required>
+
+    <select id="size" name="size">
+      <option value="small" {% if item.size == 'small' %}selected{% endif %}>Small</option>
+      <option value="medium" {% if item.size == 'medium' %}selected{% endif %}>Medium</option>
+      <option value="large" {% if item.size == 'large' %}selected{% endif %}>Large</option>
+    </select>
+
+    <label for="colour">Colour:</label>
+    <input type="text" id="colour" name="colour" required>
+
+    <label for="spec">Specifications:</label>
+    <textarea id="spec" name="spec" required></textarea>
+
+
+    <input type="submit" value="Create Item">
+  </form>
+  <div id="result_msg" class="warning"></div>
+  <script>
+    var resultMsg = "{{ result_msg }}";
+    if (resultMsg !== "" || resultMsg != null) {
+      document.getElementById("result_msg").innerHTML = resultMsg;
+    }
+  </script>
+</body>
+
+</html>

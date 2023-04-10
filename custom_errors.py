@@ -25,3 +25,15 @@ class EmailAlreadyUsed(Exception):
 class UserNotFound(Exception):
     """User Not Found Error"""
     pass
+
+class InvalidPrice(Exception):
+    """Invalid Price Error"""
+    pass
+
+class InvalidName(Exception):
+    """Invalid Name Error"""
+    pass
+
+class InvalidCategory(Exception):
+    """Invalid Category Error"""
+    pass

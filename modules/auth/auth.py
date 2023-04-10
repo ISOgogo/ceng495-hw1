@@ -27,27 +27,27 @@ def register():
         user_query_ops = UserQueryOps(mongo_db, mongo_session)
         mongo_transaction_with_retry(lambda: user_query_ops.create(new_user))
 
-    except EmailAlreadyUsed as e:
+    except EmailAlreadyUsed:
         result_status = False
         result_msg = 'This email already registered!'
-    except EmptyEmailError as e:
+    except EmptyEmailError:
         result_status = False
         result_msg = 'Email can not be empty!'
-    except InvalidEmail as e:
+    except InvalidEmail:
         result_status = False
         result_msg = 'Email is invalid!'
-    except InvalidUsername as e:
+    except InvalidUsername:
         result_status = False
         result_msg = 'Username must be longer than 3 characters'
-    except InvalidPassword as e:
+    except InvalidPassword:
         result_status = False
         result_msg = 'Password must be longer than 6 character long and contains at least 1 digit & 1 letter!'
-    except PyMongoError as e:
+    except PyMongoError:
         result_status = False
         result_msg = 'Database connection error. Please try again later!'
-    # except Exception as e:
-    #     result_status = False
-    #     result_msg = e.__str__
+    except Exception as e:
+        result_status = False
+        result_msg = str(e)
     
     if result_status == True:
         session['username'] = new_user.username
@@ -64,13 +64,13 @@ def login():
     result_msg = 'Authenticated successfully!'
     try:
         auth_login_params = AuthLoginParams(
-            email = request.form.get('username'),
+            username= request.form.get('username'),
             password = request.form.get('password')
             )
         user = validate_and_get_user(auth_login_params, mongo_db, mongo_session)
         session['username'] = user.username
     
-    except InvalidUsername as e:
+    except InvalidUsername:
         result_status = False
         result_msg = 'Username must be longer than 3 characters'
     except UserNotFound:
@@ -79,7 +79,10 @@ def login():
     except InvalidPassword:
         result_status=False
         result_msg = 'Incorrect Password'
-    
+    except Exception as e:
+        result_status = False
+        result_msg = str(e)
+
     if result_status == True:
         return redirect('/')
     if result_status == False:
