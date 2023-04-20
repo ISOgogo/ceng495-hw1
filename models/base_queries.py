@@ -14,13 +14,6 @@ class BaseQueryOps:
         self.model = model
         self.session = session
 
-    def get(self, document_id: PydanticObjectId) -> Optional[BaseModel]:
-        resp = self.collection.find_one({'_id': document_id},
-                                        session=self.session)
-
-        if resp is not None:
-            return self.model.parse_obj(resp)
-
     def create(self, document: BaseModel) -> BaseModel:
         new_document = self.collection.insert_one(document.dict(by_alias=True,
                                                                 exclude={'id'
@@ -56,17 +49,5 @@ class BaseQueryOps:
             result = result.limit(limit)
         return [self.model.parse_obj(r) for r in result]
 
-    def delete(self, document_id: PydanticObjectId):
-        self.collection.delete_one({'_id': document_id}, session=self.session)
-
-    def count(self,
-              search_filter: dict,
-              sort_options: List[tuple] = None) -> int:
-        search_filter = search_filter if search_filter is not None else {}
-        search_filter.update(search_filter)
-
-        sort_options = sort_options if sort_options is not None else []
-        result = self.collection.find(search_filter,
-                                      sort=sort_options,
-                                      session=self.session)
-        return result.count()
+    def delete(self, document_id: str):
+        self.collection.delete_one({'_id': PydanticObjectId(document_id)}, session=self.session)

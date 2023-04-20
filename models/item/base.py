@@ -13,13 +13,12 @@ class Item(MongoBaseModel):
     description: str
     price: int
     seller: str
-    image: str
-    size: str
-    colour: str
-    spec: str
+    image: Optional[str]
+    size: Optional[str]
+    colour: Optional[str]
+    spec: Optional[str]
     category: str
-    rating: float = 0
-    reviews: list = Field(default_factory=list)
+    avg_rating: float = 0
 
     @classmethod
     def get_collection_name(cls):

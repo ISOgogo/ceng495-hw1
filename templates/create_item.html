@@ -82,7 +82,36 @@
   select[name="category"] option[value=""] {
     display: none;
   }
+  select[name="size"] {
+    display: inline-block;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+    font-size: 16px;
+    color: #555;
+  }
 
+  select[name="size"] option[value=""] {
+    display: none;
+  }
+
+  nav {
+			background-color: #333;
+			overflow: hidden;
+	}
+	nav a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+	}
+	nav a:hover {
+			background-color: #ddd;
+			color: black;
+	}
+  
   .warning {
       color: red;
       font-weight: bold;
@@ -92,6 +121,19 @@
 </head>
 
 <body>
+  <nav>
+		<a href="/">Home</a>
+		<a href="/auth">Authentication</a>
+    <a href="/create_item">Create Item</a>
+		<a href="/users">Manage Users</a>
+	</nav>
+  <div id="result_msg" class="warning"></div>
+  <script>
+    var resultMsg = "{{ result_msg }}";
+    if (resultMsg !== "" || resultMsg != null) {
+      document.getElementById("result_msg").innerHTML = resultMsg;
+    }
+  </script>
   <h1>Create New Item</h1>
 
   <form action="/create_item" method="POST">
@@ -99,7 +141,7 @@
     <input type="text" id="name" name="name" required>
 
     <label for="price">Price:</label>
-    <input type="number" id="price" name="price" required>
+    <input type="text" id="price" name="price" required>
 
     <label for="category">Category:</label>
     <select id="category" name="category" required>
@@ -117,30 +159,24 @@
     <input type="text" id="seller" name="seller" required>
 
     <label for="image">Image URL:</label>
-    <input type="text" id="image" name="image" required>
+    <input type="text" id="image" name="image">
 
+    <label for="size">Size:</label>
     <select id="size" name="size">
-      <option value="small" {% if item.size == 'small' %}selected{% endif %}>Small</option>
-      <option value="medium" {% if item.size == 'medium' %}selected{% endif %}>Medium</option>
-      <option value="large" {% if item.size == 'large' %}selected{% endif %}>Large</option>
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
     </select>
 
     <label for="colour">Colour:</label>
-    <input type="text" id="colour" name="colour" required>
+    <input type="text" id="colour" name="colour">
 
     <label for="spec">Specifications:</label>
-    <textarea id="spec" name="spec" required></textarea>
+    <textarea id="spec" name="spec"></textarea>
 
 
     <input type="submit" value="Create Item">
   </form>
-  <div id="result_msg" class="warning"></div>
-  <script>
-    var resultMsg = "{{ result_msg }}";
-    if (resultMsg !== "" || resultMsg != null) {
-      document.getElementById("result_msg").innerHTML = resultMsg;
-    }
-  </script>
 </body>
 
 </html>

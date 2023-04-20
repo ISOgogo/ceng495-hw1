@@ -1,8 +1,9 @@
 from models.base_queries import BaseQueryOps
-from typing import List, Optional
+from typing import Optional
 from pymongo.client_session import ClientSession
 from pymongo.database import Database
 from models.base_queries import BaseQueryOps
+from models.review.queries import ReviewQueryOps
 from models.user.base import User
 from custom_errors import UserNotFound
 
@@ -16,3 +17,17 @@ class UserQueryOps(BaseQueryOps):
             return User.parse_obj(result)
         except:
             raise UserNotFound
+    
+    def delete_by_username(self, username: str):
+        self.collection.delete_one({'username': username})
+    
+    def update_avg_rating(self, user_name: str, review_query_ops: ReviewQueryOps):
+        user = self.get_by_username(user_name)
+        users_reviews = review_query_ops.search({'user': user_name})
+        
+        if len(users_reviews) > 0:
+            user.avg_rating = sum([review.rating for review in users_reviews]) / len(users_reviews)
+        else:
+            user.avg_rating = 0
+            
+        self.update(user)

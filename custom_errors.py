@@ -37,3 +37,15 @@ class InvalidName(Exception):
 class InvalidCategory(Exception):
     """Invalid Category Error"""
     pass
+
+class InvalidUrl(Exception):
+    """Invalid Url Error"""
+    pass
+
+class LongTextError(Exception):
+    """Long Text Error"""
+    pass
+
+class RangeError(Exception):
+    """Range Error"""
+    pass

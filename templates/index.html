@@ -56,10 +56,97 @@
 		font-size: 14px;
 		margin-bottom: 5px;
 	}
+	nav {
+			background-color: #333;
+			overflow: hidden;
+	}
+	nav a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+	}
+	nav a:hover {
+			background-color: #ddd;
+			color: black;
+	}
+	<style>
+      /* Style the dropdown container */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      /* Style the dropdown button */
+      .dropdown button {
+        font-size: 16px;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+      
+      /* Style the dropdown content */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        border-radius: 4px;
+      }
+      
+      /* Style the links inside the dropdown */
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      
+      /* Change the link color on hover */
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+      
+      /* Show the dropdown content when the dropdown button is clicked */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
 </style>
 </head>
 <body>
-	<h1>Items List</h1>
+	<nav>
+		<a href="/">Home</a>
+		<a href="/auth">Authentication</a>
+		{% if session.username == 'admin' %}
+		<a href="/create_item">Create Item</a>
+		<a href="/users">Manage Users</a>
+		{% endif %}
+	</nav>
+	<div id="result_msg" class="warning"></div>
+	<script>
+		var resultMsg = "{{ result_msg }}";
+		if (resultMsg !== "" || resultMsg != null) {
+		document.getElementById("result_msg").innerHTML = resultMsg;
+		}
+	</script>
+	<div class="dropdown">
+		<button>Choose a category</button>
+		<div class="dropdown-content">
+		  <a href="/?category=All">All</a>
+		  <a href="/?category=Clothing">Clothing</a>
+		  <a href="/?category=ComputerComponents">Computer Components</a>
+		  <a href="/?category=Monitors">Monitors</a>
+		  <a href="/?category=Snacks">Snacks</a>
+		  <a href="/?category=Other">Other</a>
+		</div>
+	  </div>
+	<h1 style="text-align: center">Items List</h1>
 	<div class="items-container">
 		<!-- Loop through the items and display each item -->
 		{% for item in items %}
@@ -74,12 +161,7 @@
 						<li>Size: {{ item.size }}</li>
 						<li>Colour: {{ item.colour }}</li>
 						<li>Spec: {{ item.spec }}</li>
-						<li>Rating: {{ item.rating }}</li>
-						<li>Reviews:</li>
-						<!-- Loop through the reviews and display each review -->
-						{% for review in item.reviews %}
-							<li>{{ review }}</li>
-						{% endfor %}
+						<li>Rating: {{ item.avg_rating }}</li>
 					</ul>
 				</div>
 			</a>

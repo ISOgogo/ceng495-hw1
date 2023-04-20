@@ -1,5 +1,6 @@
 from pymongo.database import Database
 import pymongo
+from os import environ
 
 def create_collections(db: Database):
 
@@ -21,7 +22,7 @@ def create_collections(db: Database):
 
 
 if __name__ == '__main__':
-    MONGO_PASS = "alperen60"
+    MONGO_PASS = environ.get('MONGO_PASS')
     mongo_client = pymongo.MongoClient(f"mongodb+srv://ismail:{MONGO_PASS}@hw1.m5wwlop.mongodb.net/?retryWrites=true&w=majority")
     mongo_session = mongo_client.start_session()
     mongo_db = mongo_client.main

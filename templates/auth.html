@@ -64,6 +64,13 @@
     </style>
   </head>
   <body>
+    <div id="result_msg" class="warning"></div>
+    <script>
+      var resultMsg = "{{ result_msg }}";
+      if (resultMsg !== "" || resultMsg != null) {
+        document.getElementById("result_msg").innerHTML = resultMsg;
+      }
+    </script>
     <h1>Registration</h1>
     <form method="POST" action="/auth/register">
       <label>Email:</label>
@@ -83,11 +90,5 @@
       <input type="submit" value="Login">
     </form>
     <div id="result_msg" class="warning"></div>
-    <script>
-      var resultMsg = "{{ result_msg }}";
-      if (resultMsg !== "" || resultMsg != null) {
-        document.getElementById("result_msg").innerHTML = resultMsg;
-      }
-    </script>
   </body>
 </html>

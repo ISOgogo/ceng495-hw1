@@ -53,7 +53,6 @@ def register():
         session['username'] = new_user.username
         return redirect('/')
     if result_status == False:
-        print(result_msg)
         session['result_msg'] = result_msg
         return redirect('/auth')
         
@@ -86,7 +85,6 @@ def login():
     if result_status == True:
         return redirect('/')
     if result_status == False:
-        print(result_msg)
         session['result_msg'] = result_msg
         return redirect('/auth')
 

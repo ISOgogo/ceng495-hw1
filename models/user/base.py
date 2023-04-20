@@ -4,7 +4,7 @@ from models.helpers import PydanticObjectId, MongoBaseModel
 from pymongo.database import Database
 from pymongo.errors import CollectionInvalid
 import bcrypt
-import os
+from os import environ
 
 class User(MongoBaseModel):
     __collection_name__: str = 'user'
@@ -12,6 +12,7 @@ class User(MongoBaseModel):
     email: str
     username: str
     password: bytes
+    avg_rating: float = 0.0
 
     @classmethod
     def get_collection_name(cls):
@@ -25,8 +26,7 @@ def create_collection(db: Database):
     # Make unique indexes
     db.user.create_index("username", unique=True)
     db.user.create_index("email", unique=True)
-    db.user.insert_one({ "email":"admin@mail.com", # Create admin user
+    db.user.insert_one({ "email":"admin@gmail.com", # Create admin user
                             "username":"admin", 
-                            # TODO: os.environ.get("ADMIN_PASS")
-                            "password": bcrypt.hashpw("very-strong-password".encode("utf-8"), bcrypt.gensalt())
+                            "password": bcrypt.hashpw(environ.get("ADMIN_PASS").encode("utf-8"), bcrypt.gensalt())
                         })

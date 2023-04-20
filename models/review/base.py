@@ -1,15 +1,25 @@
-from pydantic import root_validator, Field
+from pydantic import Field, root_validator
 from typing import Optional
 from models.helpers import PydanticObjectId, MongoBaseModel
 from pymongo.database import Database
 from pymongo.errors import CollectionInvalid
+from custom_errors import RangeError, LongTextError
 
 class Review(MongoBaseModel):
-    __collection_name__: str = 'item'
+    __collection_name__: str = 'review'
     id: Optional[PydanticObjectId] = Field(None, alias='_id')
     user: str
     item: str
     review: str
+    rating: int
+
+    @root_validator(pre=True)
+    @classmethod
+    def check(cls, values):
+        if len(values.get("review", "")) > 140:
+            raise LongTextError
+        if values["rating"] > 5 or values["rating"] < 1:
+            raise RangeError
 
     @classmethod
     def get_collection_name(cls):
