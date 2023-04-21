@@ -11,7 +11,7 @@ class Item(MongoBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias='_id')
     name: str
     description: str
-    price: int
+    price: float
     seller: str
     image: Optional[str]
     size: Optional[str]

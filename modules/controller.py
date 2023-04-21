@@ -157,7 +157,7 @@ def item(name):
                 return redirect('/')
 
             create_item_params = CreateItemParams(
-                name = request.form.get('name'),
+                name = name,
                 price = request.form.get('price'),
                 description = request.form.get('description'),
                 seller = request.form.get('seller'),
@@ -175,19 +175,15 @@ def item(name):
             result_msg = 'Database connection error. Please try again later!'
         except InvalidPrice as e:
             result_status = False
-            result_msg = 'Price must be greater than 0!'
-        except InvalidName as e:
-            result_status = False
-            result_msg = 'Name can not be empty!'
+            result_msg = 'Price must be greater than 0 and correct form Ex:(9.99)'
         except Exception as e:
             result_status = False
             result_msg = str(e)
         
-        if result_status == True:
-            return redirect('/item/' + name)
         if result_status == False:
             session['result_msg'] = result_msg
-            return redirect('/item/' + name)
+
+        return redirect('/item/' + name)
 
 @controller_bp.route('/users/delete/<username>', methods=['POST'])
 @check_admin

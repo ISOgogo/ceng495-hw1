@@ -18,8 +18,9 @@ class Review(MongoBaseModel):
     def check(cls, values):
         if len(values.get("review", "")) > 140:
             raise LongTextError
-        if values["rating"] > 5 or values["rating"] < 1:
+        if int(values["rating"]) > 5 or int(values["rating"]) < 1:
             raise RangeError
+        return values
 
     @classmethod
     def get_collection_name(cls):

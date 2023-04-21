@@ -140,7 +140,7 @@
 		<div class="dropdown-content">
 		  <a href="/?category=All">All</a>
 		  <a href="/?category=Clothing">Clothing</a>
-		  <a href="/?category=ComputerComponents">Computer Components</a>
+		  <a href="/?category=Computer+Components">Computer Components</a>
 		  <a href="/?category=Monitors">Monitors</a>
 		  <a href="/?category=Snacks">Snacks</a>
 		  <a href="/?category=Other">Other</a>
@@ -161,7 +161,7 @@
 						<li>Size: {{ item.size }}</li>
 						<li>Colour: {{ item.colour }}</li>
 						<li>Spec: {{ item.spec }}</li>
-						<li>Rating: {{ item.avg_rating }}</li>
+						<li>Rating: {{ item.avg_rating|round(1, 'floor') }}</li>
 					</ul>
 				</div>
 			</a>

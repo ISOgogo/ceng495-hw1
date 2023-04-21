@@ -105,10 +105,10 @@
 		<h1>{{ item.name }}</h1>
 		<img src="{{ item.image }}" alt="{{ item.name }}">
 		
-		<form action="/item/{{ item.name }}" method="POST">
-			<label for="name">Name:</label>
-			<input type="text" id="name" name="name" value="{{ item.name }}">
-			
+		<form action="/item/{{ item.name }}" method="POST">	
+			<label for="price">Price:</label>
+			<input type="text" id="price" name="price" value="{{ item.price }}">
+
 			<label for="category">Category:</label>
 			<select id="category" name="category">
 			  <option value="Clothing" {% if item.category == 'Clothing' %}selected{% endif %}>Clothing</option>
@@ -120,15 +120,12 @@
 		
 			<label for="description">Description:</label>
 			<input type="text" id="description" name="description" value="{{ item.description }}">
+			
+			<label for="seller">Seller:</label>
+			<input type="text" id="seller" name="seller" value="{{ item.seller }}">
 
 			<label for="image">Image URL:</label>
 			<input type="text" id="image" name="image" value="{{ item.image }}">
-
-			<label for="price">Price:</label>
-			<input type="number" id="price" name="price" value="{{ item.price }}">
-
-			<label for="seller">Seller:</label>
-			<input type="text" id="seller" name="seller" value="{{ item.seller }}">
 
 			<label for="size">Size:</label>
 			<select id="size" name="size">
@@ -143,7 +140,7 @@
 
             <label for="spec">Spec:</label>
             <input type="text" id="spec" name="spec" value="{{ item.spec }}">
-			<label for="avg_rating">Avarage Rating: {{ item.avg_rating }}</label>
+			<label for="avg_rating">Avarage Rating: {{ item.avg_rating|round(1, 'floor') }}</label>
 			<a href="/item/{{item.name}}/review">Reviews</a>
 			{% if session.username == 'admin' %}
 			<input type="submit" value="Save Changes">

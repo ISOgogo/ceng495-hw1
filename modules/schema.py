@@ -22,7 +22,8 @@ class CreateItemParams(MongoBaseModel):
             if values["price"] < 0: raise
         except:
             raise InvalidPrice
-        if values["name"].strip() == "":
+        values["name"] = values["name"].strip()
+        if values["name"] == "":
             raise InvalidName
         if values["category"] not in get_ctype_elems(ItemCategory):
             raise InvalidCategory
