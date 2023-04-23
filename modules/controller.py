@@ -13,7 +13,6 @@ from custom_errors import *
 from . import controller_bp
 
 @controller_bp.route('/', methods=['GET'])
-@check_auth
 def index():
     result_msg = session.pop("result_msg", "")
     item_query_ops = ItemQueryOps(mongo_db, mongo_session)
